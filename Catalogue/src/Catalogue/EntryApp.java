@@ -3,7 +3,7 @@
  * @date 19/05/2014
  * @author Christopher Candy
  */
-package ICT306Assignment2;
+package Catalogue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -587,7 +587,7 @@ class EntryApp extends JFrame
 
         catch(Exception ex)
         {
-            System.out.println("The input file cannot be accessed.\nClosing Program.");
+            System.out.println("The entry file cannot be accessed.\nClosing Program.");
             System.exit(1);
         }
     }

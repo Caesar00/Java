@@ -3,7 +3,7 @@
  * @date 19/05/2014
  * @author Christopher Candy
  */
-package ICT306Assignment2;
+package Catalogue;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -158,6 +158,6 @@ public class Client
     
     public static void displayStudentDetails()
     {
-        System.out.println("Christopher Candy, 31704593\nMode - Internal\nTutor - Mark Abernethy\nLab - Tuesday, 3:30pm\n");
+        System.out.println("Christopher Candy\n");
     }
 }

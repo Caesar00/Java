@@ -3,7 +3,7 @@
  * @date 19/05/2014
  * @author Christopher Candy
  */
-package ICT306Assignment2;
+package Catalogue;
 
 import java.io.Serializable;
 
@@ -41,4 +41,4 @@ class Catalogue implements Serializable
     {
         return catalogueName;
     }
-}
+} 
