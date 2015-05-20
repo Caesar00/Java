@@ -122,6 +122,7 @@ class EntryApp extends JFrame
                                                         icon = new ImageIcon(image);
 
                                                         entPicture.setIcon(icon);
+                                                        saveEntryFile();
                                                     }   
                 }
                 catch(NumberFormatException ex)
@@ -272,6 +273,7 @@ class EntryApp extends JFrame
                     }
                 }            
             }
+            saveEntryFile();
                         
         }
     }
@@ -314,6 +316,7 @@ class EntryApp extends JFrame
                     entPicText.setText("");
                     entDescText.setText("");                    
                     entry.remove(element);
+                    saveEntryFile();
                     break;
                 }
             }
@@ -515,7 +518,7 @@ class EntryApp extends JFrame
         Back.addActionListener(new EntryApp.backButtonListener());
         
         // Load the entry file whenever the EntryApp class is run.
-        //loadEntryFile();
+        loadEntryFile();
         
         addWindowListener(new WindowAdapter() 
         {

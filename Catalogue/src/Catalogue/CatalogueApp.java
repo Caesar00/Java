@@ -22,8 +22,6 @@ import java.util.ArrayList;
  * @version 1.0
  * This class creates the CatalogueApp GUI frame. This class is also used to store 
  * the catalogue objects which are created by the user.
- * NOTE: If no Catalogue objects are present the program will not load. This is
- * only an issue if the catSave.dat file is deleted.
  */    
 class CatalogueApp extends JFrame
 {
