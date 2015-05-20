@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * This class creates the CatalogueApp GUI frame. This class is also used to store 
  * the catalogue objects which are created by the user.
  * NOTE: If no Catalogue objects are present the program will not load. This is
- * only an issue if the save.dat file is deleted.
+ * only an issue if the catSave.dat file is deleted.
  */    
 class CatalogueApp extends JFrame
 {
@@ -32,7 +32,7 @@ class CatalogueApp extends JFrame
     JLabel catNameListLab, catNameLab;
     JTextField catNameText; 
 
-    ArrayList<Catalogue> catalogue = new ArrayList();
+    ArrayList<Catalogue> catalogue = new ArrayList<Catalogue>();
 
     /**
      * @author Christopher Candy
@@ -48,31 +48,30 @@ class CatalogueApp extends JFrame
             // Create catalogue only when there are no other catalogues with the same name
             Catalogue cat = new Catalogue();
             
-            boolean multiCatalogue = false;
-            
             for(Catalogue element : catalogue)
             {
                 if(element.getCatalogueName().equals(catNameText.getText()))
                 {
                     JOptionPane.showMessageDialog(CatalogueApp.this, 
-                        "Error! Cannot have duplicate Catalogue names");    
-                    multiCatalogue = true;
+                        "Error! Cannot have duplicate Catalogue names"); 
+                    return;
                 }
             }
-              
-            if(multiCatalogue == false)
-            {    
-                if(catNameText.getText().equals(""))
-                    JOptionPane.showMessageDialog(CatalogueApp.this, 
-                        "Error! Enter a Catalogue Name");
 
-                else
-                {
-                    cat.setCatalogueName(catNameText.getText());
-                    catalogue.add(cat);
-                    catalogueList.addElement(cat.getCatalogueName());
-                }  
+            if(catNameText.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(CatalogueApp.this, 
+                    "Error! Enter a Catalogue Name");
+                return;  
             }
+            else
+            {
+                cat.setCatalogueName(catNameText.getText());
+                catalogue.add(cat);
+                catalogueList.addElement(cat.getCatalogueName());
+            }  
+            
+           // saveCatalogueFile();
         }
     } 
 
@@ -89,7 +88,7 @@ class CatalogueApp extends JFrame
         {
             // Edit the entries of a particular catalogue, selected from the drop down menu
             String select = "";
-                    
+
             try
             {
                 select = catNameList.getSelectedValue().toString();
@@ -97,10 +96,10 @@ class CatalogueApp extends JFrame
             catch(Exception ex)
             {
                 JOptionPane.showMessageDialog(CatalogueApp.this, 
-                    "Error! Null entry selected");                
+                    "Error! Null entry selected");        
             }
-            
-            saveCatalogueFile();
+
+            //saveCatalogueFile();
             
             for(Catalogue element : catalogue)
             {
@@ -188,7 +187,7 @@ class CatalogueApp extends JFrame
         editEntry.addActionListener(new catalogueEditButtonListener());
         exitEntry.addActionListener(new catalogueExitButtonListener());
 
-        loadCatalogueFile();
+        //loadCatalogueFile();
                
         addWindowListener(new WindowAdapter() 
         {
@@ -206,24 +205,27 @@ class CatalogueApp extends JFrame
     * @return void
     * @exception IOException on output access error
     * @see CatalogueApp
-    * This method saves the catalogues to the save.dat file when the user presses
+    * This method saves the catalogues to the catSave.dat file when the user presses
     * the Edit button on the GUI.
     */    
     public void saveCatalogueFile()
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream("save.dat");
+            /*ObjectOutputStream oos = new
+                ObjectOutputStream(new
+                    FileOutputStream("catSave.dat"));*/
+            FileOutputStream fos = new FileOutputStream("catSave.dat");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(catalogue);
 
             oos.close();
-            fos.close();           
+            //fos.close();           
         }
 
         catch(IOException ex)
         {
-            System.out.println("The output file cannot be accessed.\nClosing Program.");
+            System.out.println("Error saving to file.\nClosing Program.");
             System.exit(1);
         } 
         
@@ -236,7 +238,7 @@ class CatalogueApp extends JFrame
     * @return void
     * @exception Exception on input access error
     * @see CatalogueApp
-    * This method loads the catalogues from the save.dat file when the user 
+    * This method loads the catalogues from the catSave.dat file when the user 
     * enters the GUI(either via startup or the Back button pressed from the
     * EntryApp GUI).
     */
@@ -245,7 +247,7 @@ class CatalogueApp extends JFrame
         ArrayList<Catalogue> cat = null;
         try
         {
-            FileInputStream fis = new FileInputStream("save.dat");
+            FileInputStream fis = new FileInputStream("catSave.dat");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             cat = (ArrayList<Catalogue>)ois.readObject();
@@ -263,7 +265,7 @@ class CatalogueApp extends JFrame
 
         catch(Exception ex)
         {
-            System.out.println("The Catalogue file cannot be accessed.\nClosing Program.");
+            System.out.println("Error loading the Catalogue file.\nClosing Program.");
             System.exit(1);
         }
     }

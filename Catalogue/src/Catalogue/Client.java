@@ -32,13 +32,13 @@ public class Client
         catApp.setSize(400,320);
         catApp.setVisible(true);
         
-        while(true)
+        /*while(true)
         {
             // Create Menu
             printMenu();
             int option = selectOption();
             menuOption(option, entry);
-        }
+        }*/
     }
 
     public static void printMenu()

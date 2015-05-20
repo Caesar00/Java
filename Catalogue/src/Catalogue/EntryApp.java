@@ -363,7 +363,7 @@ class EntryApp extends JFrame
         {   
             CatalogueApp catApp = new CatalogueApp("Catalogue");
 
-            saveEntryFile();
+            //saveEntryFile();
                     
             catApp.setSize(400,320);
             catApp.setVisible(true); 
@@ -515,7 +515,7 @@ class EntryApp extends JFrame
         Back.addActionListener(new EntryApp.backButtonListener());
         
         // Load the entry file whenever the EntryApp class is run.
-        loadEntryFile();
+        //loadEntryFile();
         
         addWindowListener(new WindowAdapter() 
         {
@@ -549,7 +549,7 @@ class EntryApp extends JFrame
 
         catch(IOException ex)
         {
-            System.out.println("The output file cannot be accessed.\nClosing Program.");
+            System.out.println("The output entry file cannot be accessed.\nClosing Program.");
             System.exit(1);
         } 
         
