@@ -17,7 +17,7 @@ import java.io.Serializable;
 class Catalogue implements Serializable
 {
     private String catalogueName;
-    EntryApp entryApp = new EntryApp("Entry");
+    EntryApp entryApp;
 
     
    /**

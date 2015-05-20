@@ -549,7 +549,7 @@ class EntryApp extends JFrame
 
         catch(IOException ex)
         {
-            System.out.println("The output entry file cannot be accessed.\nClosing Program.");
+            System.out.println("Error saving entry to file.\nClosing Program.");
             System.exit(1);
         } 
         
@@ -587,7 +587,7 @@ class EntryApp extends JFrame
 
         catch(Exception ex)
         {
-            System.out.println("The entry file cannot be accessed.\nClosing Program.");
+            System.out.println("Error loading the Entry file.\nClosing Program.");
             System.exit(1);
         }
     }

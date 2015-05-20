@@ -32,7 +32,7 @@ class CatalogueApp extends JFrame
     JLabel catNameListLab, catNameLab;
     JTextField catNameText; 
 
-    ArrayList<Catalogue> catalogue = new ArrayList<Catalogue>();
+    ArrayList<Catalogue> catalogue = new ArrayList();
 
     /**
      * @author Christopher Candy
@@ -71,7 +71,7 @@ class CatalogueApp extends JFrame
                 catalogueList.addElement(cat.getCatalogueName());
             }  
             
-           // saveCatalogueFile();
+            saveCatalogueFile();
         }
     } 
 
@@ -96,7 +96,8 @@ class CatalogueApp extends JFrame
             catch(Exception ex)
             {
                 JOptionPane.showMessageDialog(CatalogueApp.this, 
-                    "Error! Null entry selected");        
+                    "Error! Null entry selected");
+                return;
             }
 
             //saveCatalogueFile();
@@ -187,7 +188,7 @@ class CatalogueApp extends JFrame
         editEntry.addActionListener(new catalogueEditButtonListener());
         exitEntry.addActionListener(new catalogueExitButtonListener());
 
-        //loadCatalogueFile();
+        loadCatalogueFile();
                
         addWindowListener(new WindowAdapter() 
         {
@@ -225,7 +226,7 @@ class CatalogueApp extends JFrame
 
         catch(IOException ex)
         {
-            System.out.println("Error saving to file.\nClosing Program.");
+            System.out.println("Error saving catalogue to file.\nClosing Program.");
             System.exit(1);
         } 
         
