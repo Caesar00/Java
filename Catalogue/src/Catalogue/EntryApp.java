@@ -1,6 +1,6 @@
 /**
  * @file EntryApp.java
- * @date 19/05/2014
+ * @date 17/04/2015
  * @author Christopher Candy
  */
 package Catalogue;
@@ -13,7 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+
 
 /**
  * @author Christopher Candy
@@ -36,12 +38,19 @@ class EntryApp extends JFrame
     /**
      * @author Christopher Candy
      * @see createEntryButtonListener
-     * @version 1.0
+     * @version 1.1
      * This class is used to create an entry and then add it to the entry name list.
      * Entries with the same name are not accepted.
      */
     class createEntryButtonListener implements ActionListener
     {
+        private String catalogueName;
+        
+        public createEntryButtonListener(String catName)
+        {
+            this.catalogueName = catName;
+        }
+        
         public void actionPerformed(ActionEvent e) 
         { 
             Entry ent = new Entry();
@@ -55,82 +64,79 @@ class EntryApp extends JFrame
                 {
                     JOptionPane.showMessageDialog(EntryApp.this, 
                         "Error! Cannot have duplicate Catalogue names");    
-                    multiEntry = true;
+                    return;
                 }
             }
         
-            if(multiEntry == false) // Check if there are no other entries with the same name
+            try
             {
-                try
-                {
-                    // Perform bounds checks on all fields before adding to the entry ArrayList
-                    if(entNameText.getText().equals(""))
+                // Perform bounds checks on all fields before adding to the entry ArrayList
+                if(entNameText.getText().equals(""))
+                    JOptionPane.showMessageDialog(EntryApp.this, 
+                        "Error! Enter an Entry Name");
+                else
+                    if(entIDText.getText().equals(""))
                         JOptionPane.showMessageDialog(EntryApp.this, 
-                            "Error! Enter an Entry Name");
+                            "Error! Enter a Entry ID Number");
                     else
-                        if(entIDText.getText().equals(""))
+                        if(entDayText.getText().equals(""))
                             JOptionPane.showMessageDialog(EntryApp.this, 
-                                "Error! Enter a Entry ID Number");
+                                "Error! Enter a Entry Day");
                         else
-                            if(entDayText.getText().equals(""))
+                            if(Integer.parseInt(entDayText.getText()) < 1 ||
+                                    Integer.parseInt(entDayText.getText()) > 31)
                                 JOptionPane.showMessageDialog(EntryApp.this, 
-                                    "Error! Enter a Entry Day");
+                                    "Error! Day must be between 1-31");  
                             else
-                                if(Integer.parseInt(entDayText.getText()) < 1 ||
-                                        Integer.parseInt(entDayText.getText()) > 31)
+                                if(entMonthText.getText().equals(""))
                                     JOptionPane.showMessageDialog(EntryApp.this, 
-                                        "Error! Day must be between 1-31");  
+                                        "Error! Enter a Entry Month");
                                 else
-                                    if(entMonthText.getText().equals(""))
+                                    if(Integer.parseInt(entMonthText.getText()) < 1 ||
+                                            Integer.parseInt(entMonthText.getText()) > 12)
                                         JOptionPane.showMessageDialog(EntryApp.this, 
-                                            "Error! Enter a Entry Month");
+                                            "Error! Month must be between 1-12");                          
                                     else
-                                        if(Integer.parseInt(entMonthText.getText()) < 1 ||
-                                                Integer.parseInt(entMonthText.getText()) > 12)
+                                        if(entYearText.getText().equals(""))
                                             JOptionPane.showMessageDialog(EntryApp.this, 
-                                                "Error! Month must be between 1-12");                          
+                                                "Error! Enter a Entry Year"); 
                                         else
-                                            if(entYearText.getText().equals(""))
+                                            if(entDescText.getText().equals(""))
                                                 JOptionPane.showMessageDialog(EntryApp.this, 
-                                                    "Error! Enter a Entry Year"); 
+                                                    "Error! Enter a Entry Description");                    
                                             else
-                                                if(entDescText.getText().equals(""))
+                                                if(entPicText.getText().equals(""))
                                                     JOptionPane.showMessageDialog(EntryApp.this, 
-                                                        "Error! Enter a Entry Description");                    
+                                                        "Error! Enter a Picture");
                                                 else
-                                                    if(entPicText.getText().equals(""))
-                                                        JOptionPane.showMessageDialog(EntryApp.this, 
-                                                            "Error! Enter a Picture");
-                                                    else
-                                                    {
-                                                        ent.setEntryName(entNameText.getText());
-                                                        ent.setEntryIdNumber(Integer.parseInt(entIDText.getText()));
-                                                        ent.setEntryDay(Integer.parseInt(entDayText.getText()));
-                                                        ent.setEntryMonth(Integer.parseInt(entMonthText.getText()));
-                                                        ent.setEntryYear(Integer.parseInt(entYearText.getText()));
-                                                        ent.setEntryDescription(entDescText.getText());                               
-                                                        ent.setEntryPicName(entPicText.getText());                                
+                                                {
+                                                    ent.setEntryName(entNameText.getText());
+                                                    ent.setEntryIdNumber(Integer.parseInt(entIDText.getText()));
+                                                    ent.setEntryDay(Integer.parseInt(entDayText.getText()));
+                                                    ent.setEntryMonth(Integer.parseInt(entMonthText.getText()));
+                                                    ent.setEntryYear(Integer.parseInt(entYearText.getText()));
+                                                    ent.setEntryDescription(entDescText.getText());                               
+                                                    ent.setEntryPicName(entPicText.getText());                                
 
-                                                        entry.add(ent);
-                                                        entryList.addElement(ent.getName());
+                                                    entry.add(ent);
+                                                    entryList.addElement(ent.getName());
 
-                                                        ImageIcon icon = new ImageIcon(entPicText.getText());
-                                                        
-                                                        // Scale icon to fit onto GUI properly
-                                                        Image image = icon.getImage();
-                                                        image = image.getScaledInstance(300, 400, java.awt.Image.SCALE_SMOOTH);
-                                                        icon = new ImageIcon(image);
+                                                    ImageIcon icon = new ImageIcon(entPicText.getText());
 
-                                                        entPicture.setIcon(icon);
-                                                        saveEntryFile();
-                                                    }   
+                                                    // Scale icon to fit onto GUI properly
+                                                    Image image = icon.getImage();
+                                                    image = image.getScaledInstance(300, 400, java.awt.Image.SCALE_SMOOTH);
+                                                    icon = new ImageIcon(image);
+
+                                                    entPicture.setIcon(icon);
+                                                    saveEntryFile(catalogueName);
+                                                }   
                 }
                 catch(NumberFormatException ex)
                 {
                     JOptionPane.showMessageDialog(EntryApp.this, 
                         "Error! Entry ID, day, month and year must all contain numbers");                
                 }     
-            }
         }
     } 
     
@@ -186,12 +192,19 @@ class EntryApp extends JFrame
    /**
     * @author Christopher Candy
     * @see editEntryButtonListener
-    * @version 1.0
+    * @version 1.1
     * This class is used to edit an entry that has already been created. The entry
     * to edit is chosen from a list. The name of the entry cannot be changed.
     */
     class editEntryButtonListener implements ActionListener
     {
+        private String catalogueName;
+        
+        public editEntryButtonListener(String catName)
+        {
+            this.catalogueName = catName;
+        }
+        
         public void actionPerformed(ActionEvent e) 
         {   
             String selectedEntry = "";
@@ -273,7 +286,7 @@ class EntryApp extends JFrame
                     }
                 }            
             }
-            saveEntryFile();
+            saveEntryFile(catalogueName);
                         
         }
     }
@@ -281,13 +294,20 @@ class EntryApp extends JFrame
    /**
     * @author Christopher Candy
     * @see deleteEntryButtonListener
-    * @version 1.0
+    * @version 1.1
     * This class is used to delete an entry that has already been created. The entry
     * to delete is chosen from a list. If no entry is selected an error message is 
     * given.
     */
     class deleteEntryButtonListener implements ActionListener
     {
+        private String catalogueName;
+        
+        public deleteEntryButtonListener(String catName)
+        {
+            this.catalogueName = catName;
+        }
+        
         public void actionPerformed(ActionEvent e) 
         {   
             // Delete the selected entry from the entry ArrayList
@@ -316,7 +336,7 @@ class EntryApp extends JFrame
                     entPicText.setText("");
                     entDescText.setText("");                    
                     entry.remove(element);
-                    saveEntryFile();
+                    saveEntryFile(catalogueName);
                     break;
                 }
             }
@@ -358,7 +378,7 @@ class EntryApp extends JFrame
     * @see backButtonListener
     * @version 1.0
     * This class is used to go back to the CatalogueApp GUI. All entries are saved
-    * to the file entrysav.dat. 
+    * to the file EntrySav.dat. 
     */        
     class backButtonListener implements ActionListener
     {
@@ -366,8 +386,6 @@ class EntryApp extends JFrame
         {   
             CatalogueApp catApp = new CatalogueApp("Catalogue");
 
-            //saveEntryFile();
-                   
             catApp.pack();
             catApp.setVisible(true); 
             EntryApp.this.setVisible(false);
@@ -397,11 +415,10 @@ class EntryApp extends JFrame
         }       
     }
 
-    
-    public EntryApp(String frameTitle)
+    public EntryApp(String frameTitle, String catalogueName)
     {
-        super(frameTitle);  
-        
+        super(frameTitle);
+
         // Create panels and set layouts
         JPanel westPanel = new JPanel();
         JPanel eastPanel = new JPanel();
@@ -509,16 +526,18 @@ class EntryApp extends JFrame
                 
         entPicText.addActionListener(new EntryApp.addPictureListener());
         
-        addEntry.addActionListener(new EntryApp.createEntryButtonListener());
+        addEntry.addActionListener(new EntryApp.createEntryButtonListener(catalogueName));
         viewEntry.addActionListener(new EntryApp.viewEntryButtonListener());
-        editEntry.addActionListener(new EntryApp.editEntryButtonListener());        
-        deleteEntry.addActionListener(new EntryApp.deleteEntryButtonListener()); 
+        editEntry.addActionListener(new EntryApp.editEntryButtonListener(catalogueName));        
+        deleteEntry.addActionListener(new EntryApp.deleteEntryButtonListener(catalogueName)); 
         
         Clear.addActionListener(new EntryApp.clearButtonListener());
         Back.addActionListener(new EntryApp.backButtonListener());
         
         // Load the entry file whenever the EntryApp class is run.
-        loadEntryFile();
+        File f = new File(catalogueName + "EntrySave.dat");
+        if(f.exists() && !f.isDirectory())
+            loadEntryFile(catalogueName);
         
         addWindowListener(new WindowAdapter() 
         {
@@ -535,14 +554,14 @@ class EntryApp extends JFrame
     * @return void
     * @exception IOException on output access error
     * @see EntryApp
-    * This method saves the entries to the entrysave.dat file when the user presses
+    * This method saves the entries to the EntrySave.dat file when the user presses
     * the Back button on the GUI.
     */
-    public void saveEntryFile()
+    public void saveEntryFile(String catName)
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream("entrysave.dat");
+            FileOutputStream fos = new FileOutputStream((catName + "EntrySave.dat"));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(entry);
 
@@ -565,15 +584,15 @@ class EntryApp extends JFrame
     * @return void
     * @exception Exception on input access error
     * @see EntryApp
-    * This method loads the entries from the entrysave.dat file when the user 
+    * This method loads the entries from the EntrySave.dat file when the user 
     * enters the GUI.
     */
-    public void loadEntryFile()
+    public void loadEntryFile(String catName)
     {
         ArrayList<Entry> ent = null;
         try
         {
-            FileInputStream fis = new FileInputStream("entrysave.dat");
+            FileInputStream fis = new FileInputStream((catName + "EntrySave.dat"));
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             ent = (ArrayList<Entry>)ois.readObject();

@@ -1,6 +1,6 @@
 /**
  * @file CatalogueApp.java
- * @date 19/05/2014
+ * @date 17/04/2015
  * @author Christopher Candy
  */
 package Catalogue;
@@ -97,14 +97,12 @@ class CatalogueApp extends JFrame
                     "Error! Null entry selected");
                 return;
             }
-
-            //saveCatalogueFile();
             
             for(Catalogue element : catalogue)
             {
                 if(element.getCatalogueName().equals(select))
                 {
-                    element.entryApp = new EntryApp("Entry");
+                    element.entryApp = new EntryApp("Entry", element.getCatalogueName());
                     element.entryApp.setVisible(true);
                     element.entryApp.setSize(720,480);
                     CatalogueApp.this.setVisible(false);
@@ -204,7 +202,7 @@ class CatalogueApp extends JFrame
         c.insets = new Insets(1,4,30,4);
         northPanel.add(catNameLab, c);
         
-        catNameText = new JTextField("", 24);
+        catNameText = new JTextField();
         c.weightx = 1;
         c.gridx = 1;
         c.gridy = 1;
