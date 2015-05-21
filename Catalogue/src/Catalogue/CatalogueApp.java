@@ -8,6 +8,7 @@ package Catalogue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -143,9 +144,13 @@ class CatalogueApp extends JFrame
                     catNameText.setText("");
                     catalogue.remove(element);
                     saveCatalogueFile();
+                    
+                    File f = new File(element.getCatalogueName() + "EntrySave.dat");
+                    if(f.exists() && !f.isDirectory())
+                    f.delete();
                     break;
                 }
-            }
+            }        
         } 
     }
     
