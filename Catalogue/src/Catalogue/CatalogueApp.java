@@ -114,10 +114,47 @@ class CatalogueApp extends JFrame
         } 
     }
     
-   /**
+    /**
     * @author Christopher Candy
     * @see catalogueExitButtonListener
     * @version 1.0
+    * This class is used to exit the CatalogueApp GUI and the program.
+    */     
+    class catalogueDeleteButtonListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+             // Delete the selected entry from the entry ArrayList
+            String selectedEntry = "";
+            
+            try
+            {
+                selectedEntry = catNameList.getSelectedValue().toString();
+            }
+            catch(Exception ex)
+            {
+                JOptionPane.showMessageDialog(CatalogueApp.this, 
+                    "Error! Null entry selected");                
+            }
+        
+            for(Catalogue element : catalogue)
+            {
+                if(element.getCatalogueName().equals(selectedEntry))
+                {
+                    catalogueList.removeElement(element.getCatalogueName());
+                    catNameText.setText("");
+                    catalogue.remove(element);
+                    saveCatalogueFile();
+                    break;
+                }
+            }
+        } 
+    }
+    
+   /**
+    * @author Christopher Candy
+    * @see catalogueExitButtonListener
+    * @version 1.1
     * This class is used to exit the CatalogueApp GUI and the program.
     */       
     class catalogueExitButtonListener implements ActionListener
@@ -131,60 +168,82 @@ class CatalogueApp extends JFrame
     public CatalogueApp(String frameTitle)
     {
         super(frameTitle);
- 
+        
         // Create catalogue panels
-        JPanel westPanel = new JPanel();
-        JPanel southPanel = new JPanel();      
-    
-        westPanel.setLayout(new GridBagLayout());
-        getContentPane().add(westPanel);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(4,4,1,4);
+        c.fill = GridBagConstraints.HORIZONTAL;
         
-        GridBagConstraints left = new GridBagConstraints();
-        left.anchor = GridBagConstraints.WEST;
-        left.gridx = 20;
-        
-        GridBagConstraints right = new GridBagConstraints();
-        right.weightx = 2.0;
-        right.fill = GridBagConstraints.HORIZONTAL;
-        right.gridwidth = GridBagConstraints.REMAINDER;    
-        
-        GridBagConstraints south = new GridBagConstraints();
-        south.anchor = GridBagConstraints.SOUTH;
-        
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new GridBagLayout());
+        this.add(northPanel, c);
         
         catNameListLab = new JLabel("Catalogue List: ");
-        westPanel.add(catNameListLab, left);
+        c.weightx = 0;
+        c.gridx = 0;
+        c.gridy = 0;
+        northPanel.add(catNameListLab, c);
 
         catalogueList = new DefaultListModel();
-        westPanel.add(catNameList = new JList(catalogueList));
+        northPanel.add(catNameList = new JList(catalogueList));
         catNameList.setVisibleRowCount(5);      // Only 5 rows visible
         catNameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  // Prevent multiple selections
         JScrollPane catNameScroll = new JScrollPane(catNameList);
-        westPanel.add(catNameScroll, right);
-    
+        c.weightx = 1;
+        c.gridx = 1;
+        c.gridy = 0;
+        northPanel.add(catNameScroll, c);        
+        
         catNameLab = new JLabel("Catalogue Name: ");
-        westPanel.add(catNameLab, left);
+        c.weightx = 0;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.insets = new Insets(1,4,30,4);
+        northPanel.add(catNameLab, c);
         
-        catNameText = new JTextField();
-        westPanel.add(catNameText, right);
-        
-        add(westPanel, BorderLayout.WEST);
-        add(southPanel, BorderLayout.SOUTH);
-        
-        westPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));        
-        
-        JButton addEntry = new JButton("Create Catalogue");
-        southPanel.add(addEntry, BorderLayout.SOUTH);
-        
-        JButton editEntry = new JButton("Edit Catalogue");
-        southPanel.add(editEntry, BorderLayout.SOUTH);
-        
-        JButton exitEntry = new JButton("Exit Catalogue");
-        southPanel.add(exitEntry, BorderLayout.SOUTH);        
+        catNameText = new JTextField("", 24);
+        c.weightx = 1;
+        c.gridx = 1;
+        c.gridy = 1;
+        northPanel.add(catNameText, c);        
 
-        addEntry.addActionListener(new catalogueCreateButtonListener());
-        editEntry.addActionListener(new catalogueEditButtonListener());
-        exitEntry.addActionListener(new catalogueExitButtonListener());
+      
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new GridBagLayout());
+        c.gridx = 0;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(2,4,2,4);
+        this.add(southPanel, c);
+        
+        JButton addCatalogue = new JButton("Create Catalogue");
+        c.gridx = 0;
+        c.gridy = 0;
+        southPanel.add(addCatalogue, c);
+                
+        JButton editCatalogue = new JButton("Edit Catalogue");
+        c.gridx = 1;
+        c.gridy = 0;
+        southPanel.add(editCatalogue, c);
+        
+        JButton deleteCatalogue = new JButton("Delete Catalogue");
+        c.gridx = 0;
+        c.gridy = 1;
+        southPanel.add(deleteCatalogue, c);
+        
+        JButton exitCatalogue = new JButton("Exit Catalogue");
+        c.gridx = 1;
+        c.gridy = 1;
+        southPanel.add(exitCatalogue, c);
+        
+       
+        addCatalogue.addActionListener(new catalogueCreateButtonListener());
+        editCatalogue.addActionListener(new catalogueEditButtonListener());
+        deleteCatalogue.addActionListener(new catalogueDeleteButtonListener());
+        exitCatalogue.addActionListener(new catalogueExitButtonListener());
 
         loadCatalogueFile();
                

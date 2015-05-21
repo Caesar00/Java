@@ -11,12 +11,8 @@ import java.util.Scanner;
 /**
  * @author Christopher Candy
  * @see Client
- * @version 1.0
- * This class was initially used for the creation of entry objects. After the GUI
- * was created this class is no longer used for creating, adding, or deleting
- * entry objects in the GUI(These options are performed in the GUI itself). 
- * This class is currently used to start the program by running the CatalogueApp
- * class.
+ * @version 1.1
+ * This class creates a catalogue GUI.
  */       
 public class Client
 {
@@ -25,8 +21,7 @@ public class Client
         ArrayList<Entry> entry = new ArrayList();
           
         CatalogueApp catApp = new CatalogueApp("Catalogue");
-
-        catApp.setSize(400,320);
+        catApp.pack();
         catApp.setVisible(true);
     }  
 }

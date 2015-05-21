@@ -367,8 +367,8 @@ class EntryApp extends JFrame
             CatalogueApp catApp = new CatalogueApp("Catalogue");
 
             //saveEntryFile();
-                    
-            catApp.setSize(400,320);
+                   
+            catApp.pack();
             catApp.setVisible(true); 
             EntryApp.this.setVisible(false);
         }
