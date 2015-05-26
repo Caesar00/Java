@@ -55,9 +55,6 @@ class EntryApp extends JFrame
         { 
             Entry ent = new Entry();
 
-            // Prevent the creation of multiple entries names in the entry ArrayList
-            boolean multiEntry = false;
-            
             for(Entry element : entry)
             {
                 if(element.getName().equals(entNameText.getText()))
@@ -614,5 +611,3 @@ class EntryApp extends JFrame
         }
     }
 }
-
-
