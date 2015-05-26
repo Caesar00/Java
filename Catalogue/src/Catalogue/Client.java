@@ -5,9 +5,6 @@
  */
 package Catalogue;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * @author Christopher Candy
  * @see Client
@@ -18,8 +15,6 @@ public class Client
 {
     public static void main(String[] args )
     {
-        ArrayList<Entry> entry = new ArrayList();
-          
         CatalogueApp catApp = new CatalogueApp("Catalogue");
         catApp.pack();
         catApp.setVisible(true);
